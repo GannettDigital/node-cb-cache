@@ -15,9 +15,6 @@ public/lib
 # Ignore compiled js files
 public/dist
 
-# Ignore test output folder
-test/
-
 # Ignore Bower temp folders
 .bower-*/
 
