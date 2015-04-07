@@ -1,0 +1,12 @@
+{
+  "name": "cb-cache",
+  "main": "./cb-cache",
+  "version": "0.1.0",
+  "dependencies": {
+    "couchbase": "^2.0.6"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.3",
+    "q": "^1.2.0"
+  }
+}
