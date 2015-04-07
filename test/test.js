@@ -13,7 +13,7 @@ describe('CBCache', function(){
   describe('#set() / #del()', function() {
 
 
-    it('should delete an existing key', function(done) {
+    it('MUST delete an existing key', function(done) {
 
       cb_set('foo', 'bar', 10).then(
 	function() { return cb_del('foo'); }
@@ -29,7 +29,7 @@ describe('CBCache', function(){
     });
 
 
-    it('should not error with a non-existing key', function(done) {
+    it('MUST not error with a non-existing key', function(done) {
       cb_del('foo').then(
 	function() { return cb_del('foo') }
       ).then(done).done()
@@ -39,13 +39,36 @@ describe('CBCache', function(){
 
   describe('#set() / #get()', function(){
 
-
-    it('should return value within timeout', function(done){
-
-      cb_set('foo', 'bar', 10).then(
+    it('MUST support JSON', function(done) {
+      cb_set('foo', {'foo': 'bar'}, 10).then(
 	function() {
 	  return cb_get('foo')
 	}
+      ).then(
+	function(value) {
+	  assert(value, {'foo': 'bar'})
+	  done()
+	}
+      ).done()
+    })
+
+    it('MUST support Buffer()', function(done){
+      cb_set('foo', new Buffer('bar'), 10).then(
+	function() { return cb_get('foo') }
+      ).then(
+	function(value) {
+	  // The memcached API returns a Buffer when setting a buffer
+	  assert(value instanceof Buffer);
+	  assert.equal(value.toString(), 'bar');
+	  done();
+	}
+      ).done();
+    })
+
+
+    it('MUST return value within timeout', function(done){
+      cb_set('foo', 'bar', 10).then(
+	function() { return cb_get('foo') }
       ).then(
 	function(value) {
 	  assert.equal(value, 'bar');
@@ -55,7 +78,7 @@ describe('CBCache', function(){
     })
 
 
-    it('should return undefined outside timeout', function(done){
+    it('MUST return undefined outside timeout', function(done){
       cb_set('foo', 'bar', 1).then(
 	function() { return Q.delay(1500); }
       ).then(

@@ -1,3 +1,5 @@
+*~
+
 # Ignore OSX file system object
 .DS_Store
 .nodemonignore
