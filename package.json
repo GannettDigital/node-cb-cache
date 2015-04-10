@@ -1,7 +1,22 @@
 {
+  "@context": {
+    "@vocab": "https://docs.npmjs.com/files/package.json#"
+  },
   "name": "cb-cache",
   "main": "./cb-cache",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "A minimal memcached compatible interface to couchbase",
+  "homepage": "https://github.com/GannettDigital/node-cb-cache",
+  "license": "MIT",
+  "author": {
+    "name": "Eric Moritz",
+    "email": "eric.moritz@gmail.com",
+    "url": "http://ericmoritz.name/"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "http://github.com/GannettDigital/node-cb-cache.git"
+  },
   "dependencies": {
     "couchbase": "^2.0.6"
   },

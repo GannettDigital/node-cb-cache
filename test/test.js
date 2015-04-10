@@ -1,5 +1,5 @@
 var assert = require('assert');
-var couchbase = require('couchbase');
+var couchbase = require('couchbase').Mock;
 var CBCache = require('../cb-cache');
 var cluster = new couchbase.Cluster(process.env.COUCHBASE_URL);
 var bucket = cluster.openBucket(process.env.COUCHBASE_BUCKET);
@@ -8,10 +8,20 @@ var Q = require('Q');
 var cb_set = Q.nbind(cache.set, cache)
 var cb_get = Q.nbind(cache.get, cache)
 var cb_del = Q.nbind(cache.del, cache)
+var cb_flush = Q.nbind(cache.flush, cache)
 
 describe('CBCache', function(){
   describe('#set() / #del()', function() {
 
+    it('MUST flush all keys', function() {
+      return cb_set('foo', 'bar', 10).then(function() {
+	return cb_flush()
+      }).then(function() {
+	return cb_get('foo')
+      }).then(function(value) {
+	assert.equal(value, undefined)
+      })
+    })
 
     it('MUST delete an existing key', function(done) {
 
